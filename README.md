@@ -177,5 +177,5 @@ Tree visualization saved as ./Red_Black_20241225_123456/rb_tree_<uuid>.png
 This project is licensed under the MIT License. See `LICENSE` for details.
 
 ---
-Feel free to extend the implementation with additional features such as tree traversal visualizations, performance metrics, or custom visualization styles.
+Feel free to extend the implementation with additional features such as tree traversal visualizations, performance metrics, custom visualization styles, or any other related DSA data algorithm/dataStructures.
 
