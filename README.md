@@ -35,10 +35,59 @@ This project provides an implementation of a **Red-Black Tree** in Python with v
   - `uuid`
   - `datetime`
 
-Install the required libraries using pip:
+To install Graphviz, follow the steps based on your operating system:
+
+### 1. **Installing Graphviz on Windows:**
+
+- **Using the Installer:**
+  1. Go to the [Graphviz download page](https://graphviz.gitlab.io/download/).
+  2. Download the Windows installer (e.g., `.exe` file).
+  3. Run the installer and follow the on-screen instructions.
+  4. Add Graphviz to the system `PATH` environment variable (you can do this during installation, or manually afterward).
+  
+- **Using `choco` (if you have Chocolatey):**
+  ```bash
+  choco install graphviz
+  ```
+
+### 2. **Installing Graphviz on macOS:**
+
+- **Using Homebrew:**
+  ```bash
+  brew install graphviz
+  ```
+
+- **Using MacPorts:**
+  ```bash
+  sudo port install graphviz
+  ```
+
+### 3. **Installing Graphviz on Linux:**
+
+- **Ubuntu/Debian:**
+  ```bash
+  sudo apt-get install graphviz
+  ```
+
+- **Fedora:**
+  ```bash
+  sudo dnf install graphviz
+  ```
+
+- **Arch Linux:**
+  ```bash
+  sudo pacman -S graphviz
+  ```
+
+### 4. **Installing the Python `graphviz` Package (for Python bindings):**
+
+If you also need the Python bindings for Graphviz (useful for creating and rendering graphs directly in Python), you can install them using `pip`:
+
 ```bash
 pip install graphviz
 ```
+
+After installation, you can use the Graphviz functions in Python to create and visualize graphs. Make sure Graphviz is installed on your system for the Python bindings to work properly.
 
 ### Running the Program
 1. Save the script as `red_black_tree_visual.py`.
