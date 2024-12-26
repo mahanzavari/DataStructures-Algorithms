@@ -3,6 +3,10 @@ import os
 import uuid
 from datetime import datetime
 
+    
+def floats_are_equal(self , a, b, eps=1e-3):
+    #Returns True if a and b are within eps of each other
+    return abs(a - b) < eps
 
 class Node:
     def __init__(self, data):
@@ -14,6 +18,7 @@ class Node:
 
 
 class RedBlackTree:
+
     def __init__(self):
         self.NIL_LEAF = Node(None)  # Sentinel NIL leaf node
         self.NIL_LEAF.color = 'BLACK'
@@ -166,9 +171,15 @@ class RedBlackTree:
         node = self.root
         z = self.NIL_LEAF
         while node != self.NIL_LEAF:
-            if node.data == data:
+            # if node.data == data:
+            #     z = node
+            # if node.data <= data:
+            #     node = node.right
+            # else:
+            #     node = node.left
+            if floats_are_equal(node.data , data): 
                 z = node
-            if node.data <= data:
+            if floats_are_equal(node.data <= data):
                 node = node.right
             else:
                 node = node.left
@@ -251,6 +262,11 @@ class VisualRedBlackTree(RedBlackTree):
         print(f"Inserting {data}")
         super().insert(data)
         self.visualize_tree()
+        
+    def delete(self , data):
+        print(f"deleting {data}")
+        super().delete(data)
+        self.visualize_tree()
 if __name__ == "__main__":
     rbt = VisualRedBlackTree()
 
@@ -269,7 +285,7 @@ if __name__ == "__main__":
                     num = float(parts[1])
                     rbt.insert(num)
                 except ValueError:
-                    print("Invalid number format. Please enter a valid integer or float.")
+                    print("Invalid number format. Please enter a valid integer or int.")
             else:
                 print("Invalid insert command. Usage: insert <number>")
         elif command == "delete":
@@ -278,7 +294,7 @@ if __name__ == "__main__":
                     num = float(parts[1])
                     rbt.delete(num)
                 except ValueError:
-                    print("Invalid number format. Please enter a valid integer or float.")
+                    print("Invalid number format. Please enter a valid integer or int.")
             else:
                 print("Invalid delete command. Usage: delete <number>")
         elif command == "exit":
