@@ -4,7 +4,7 @@ import uuid
 from datetime import datetime
 
     
-def floats_are_equal(self , a, b, eps=1e-3):
+def floats_are_equal(a, b, eps=1e-3):
     #Returns True if a and b are within eps of each other
     return abs(a - b) < eps
 
@@ -179,7 +179,7 @@ class RedBlackTree:
             #     node = node.left
             if floats_are_equal(node.data , data): 
                 z = node
-            if floats_are_equal(node.data <= data):
+            if node.data <= data:
                 node = node.right
             else:
                 node = node.left
