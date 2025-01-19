@@ -68,67 +68,85 @@ class AVLTree:
           return y
      
      def search(self , root , key):
-          if not root or root.key == key:
+          if not root or floats_are_equal(root.key, key):
                return root
           if key < root.key:
                return self.search(root.left , key)
   
           return self.search(root.right , key)
-     def insert_iterative(self, root: Optional[AVLNode], key: int) -> AVLNode:
-          """
-          Iterative insertion in AVL tree with rebalancing.
-          
-          Args:
-              root (AVLNode): Root of the AVL tree.
-              key (int): Key to insert.
-          
-          Returns:
+     def insert_iterative(self, root: Optional[AVLNode], key: float) -> AVLNode:
+         """
+         Iterative insertion in AVL tree with rebalancing.
+               
+         Args:
+             root (AVLNode): Root of the AVL tree.
+             key (float): Key to insert.
+               
+         Returns:
               AVLNode: New root of the AVL tree after insertion.
-          """
-          if not root:
-              return AVLNode(key)
-  
-          stack = []
-          node = root
-  
-          while node:
-              stack.append(node)
-              if key < node.key:
-                  if not node.left:
-                      node.left = AVLNode(key)
-                      break
-                  node = node.left
-              elif key > node.key:
-                  if not node.right:
-                      node.right = AVLNode(key)
-                      break
-                  node = node.right
-              else:
-                  return root
-  
-          while stack:
-              current = stack.pop()
-              current.height = 1 + max(self.height(current.left), self.height(current.right))
-  
-              balance = self.get_balance(current)
-  
-              if balance > 1 and key < current.left.key:  # Left Left
-                  return self.rotate_right(current)
-  
-              if balance < -1 and key > current.right.key:  # Right Right
-                  return self.rotate_left(current)
-  
-              if balance > 1 and key > current.left.key:  # Left Right
-                  current.left = self.rotate_left(current.left)
-                  return self.rotate_right(current)
-  
-              if balance < -1 and key < current.right.key:  # Right Left
-                  current.right = self.rotate_right(current.right)
-                  return self.rotate_left(current)
-  
-          return root
-  
- 
+         """
+         if not root:
+             return AVLNode(key)
+     
+         stack = []
+         node = root
+     
+         while node:
+             stack.append(node)
+             if key < node.key:
+                 if not node.left:
+                     node.left = AVLNode(key)
+                     break
+                 node = node.left
+             elif key > node.key:
+                 if not node.right:
+                     node.right = AVLNode(key)
+                     break
+                 node = node.right
+             else:
+                 return root
+     
+         while stack:
+             current = stack.pop()
+             current.height = 1 + max(self.get_height(current.left), self.get_height(current.right))
+     
+             balance = self.get_balance(current)
+     
+             if balance > 1 and key < current.left.key:  # Left Left
+                 if stack and stack[-1].left == current:
+                     stack[-1].left = self.right_rotate(current)
+                 elif stack:
+                     stack[-1].right = self.right_rotate(current)
+                 else:
+                     return self.right_rotate(current)
+                     
+     
+             if balance < -1 and key > current.right.key:  # Right Right
+                 if stack and stack[-1].left == current:
+                     stack[-1].left = self.left_rotate(current)
+                 elif stack:
+                     stack[-1].right = self.left_rotate(current)
+                 else:
+                     return self.left_rotate(current)
+     
+             if balance > 1 and key > current.left.key:  # Left Right
+                 current.left = self.left_rotate(current.left)
+                 if stack and stack[-1].left == current:
+                      stack[-1].left = self.right_rotate(current)
+                 elif stack:
+                     stack[-1].right = self.right_rotate(current)
+                 else:
+                      return self.right_rotate(current)
+     
+             if balance < -1 and key < current.right.key:  # Right Left
+                 current.right = self.right_rotate(current.right)
+                 if stack and stack[-1].left == current:
+                      stack[-1].left = self.left_rotate(current)
+                 elif stack:
+                     stack[-1].right = self.left_rotate(current)
+                 else:
+                      return self.left_rotate(current)
+         return root
      
      
      def delete_iterative(self, root, key):
@@ -137,7 +155,7 @@ class AVLTree:
   
           Args:
               root (AVLNode): Root of the AVL tree.
-              key (int): Key to delete.
+              key (float): Key to delete.
   
           Returns:
               AVLNode: New root of the AVL tree after deletion.
@@ -150,7 +168,7 @@ class AVLTree:
           curr = root
   
           # Find the node to delete
-          while curr and curr.key != key:
+          while curr and not floats_are_equal(curr.key , key):
               stack.append(curr)
               parent = curr
               if key < curr.key:
@@ -241,13 +259,25 @@ class AVLTree:
 
                
      def insert_recursive(self, root: 'AVLNode | None', key: float) -> 'AVLNode | None':
+          """
+          Recursively insert a key into the AVL tree.
+
+          Args:
+              root (AVLNode | None): The root of the subtree.
+              key (float): The key to insert.
+
+          Returns:
+              AVLNode | None: The new root of the subtree.
+          """
           # 1. BST insert_recursiveion
           if not root:
                return AVLNode(key)
           elif key < root.key:
                root.left = self.insert_recursive(root.left , key)
-          else:
+          elif key > root.key:
                root.right = self.insert_recursive(root.right , key)
+          else:
+             return root # Key already exists, no need to insert
           # 2. update height 
           root.height = 1 + max(self.get_height(root.left) , self.get_height(root.right))
           
@@ -270,7 +300,18 @@ class AVLTree:
           if balance_factor < - 1 and key < root.right.key:
                root.right = self.right_rotate(root.right)
                return self.left_rotate(root)
+          return root
      def delete_recursive(self, root: 'AVLNode | None', key: float) -> 'AVLNode | None':
+          """
+          Recursively deletes a key from the AVL tree.
+
+          Args:
+               root (AVLNode | None): The root of the subtree.
+               key (float): The key to delete.
+
+          Returns:
+               AVLNode | None: The new root of the subtree.
+          """
           if not root:
                return root
           # BST deletion
@@ -287,8 +328,11 @@ class AVLTree:
                temp = self.get_min_val_node(root.right)
                root.key = temp.key 
                root.right = self.delete_recursive(root.right , temp.key)
-          
+          if not root:  # If node was deleted and subtree is now empty
+            return None
           # update the height
+          root.height = 1 + max(self.get_height(root.left), self.get_height(root.right))
+
           balance_factor = self.get_balance(root)
           # Left Left case 
           if balance_factor > 1 and self.get_balance(root.left) >= 0:
@@ -552,4 +596,4 @@ class AVLTree:
 # #     print("\n")
 
 #     print("Size : ", avl.get_size(root))
-#     print(AVLTree.insert_recursive.__doc__) # docstring
+#     print(AVLTree.insert_recursive.__doc__) # docstringreslove errors in the attached project, also add error and edge cases handeling to the AVL trees
