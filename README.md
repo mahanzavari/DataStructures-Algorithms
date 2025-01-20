@@ -125,12 +125,4 @@ Contributions are welcome! If you find any bugs or have suggestions for improvem
 ## License
 
 This project is licensed under the MIT License. See `LICENSE` for details.
-```
-
-**How to Use This Markdown:**
-
-1.  **Copy:** Copy all of the above content.
-2.  **Paste:** Paste the copied content into a file named `README.md` in the root directory of your repository.
-3.  **Replace Placeholder:**  Replace `[https://github.com/mahanzavari/DataStructures-Algorithms]` with the actual repository link and replace `[DataStructures-Algorithms]` with the name of the repository.
-4.  **Commit and Push:** Commit your changes and push them to your repository.
 
