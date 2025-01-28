@@ -7,7 +7,7 @@ from collections import defaultdict
 # u and v are reachable from each other
 
 
-def find_sccs(graph):
+def find_sccs_kosaraju(graph):
     """
     Finds all Strongly Connected Components (SCCs) in a directed graph using Kosaraju's Algorithm.
 
@@ -77,7 +77,7 @@ if __name__ == "__main__":
         6: [5],
     }
 
-    sccs = find_sccs(graph)
+    sccs = find_sccs_kosaraju(graph)
     print("Strongly Connected Components:", sccs)
 
 # Real-World Application Example
@@ -96,7 +96,7 @@ def real_world_sccs_example():
         'Grace': ['Frank'],
     }
 
-    sccs = find_sccs(social_network)
+    sccs = find_sccs_kosaraju(social_network)
     print("Strongly Connected Components in the Social Network:", sccs)
 
 real_world_sccs_example()
