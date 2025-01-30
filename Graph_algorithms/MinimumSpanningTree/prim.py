@@ -42,7 +42,7 @@ def prim(graph, start):
     return mst
 
 
-# Example Usage
+
 if __name__ == "__main__":
     graph = {
         'A': [('B', 2), ('D', 6)],

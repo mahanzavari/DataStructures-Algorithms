@@ -1,5 +1,7 @@
 import math
 
+# I have used AI for fibonacci heaps since they are not used often in industry
+# please double check for the fibonacci heap
 class FibonacciHeapNode:
     def __init__(self, key, value):
         """
@@ -290,7 +292,6 @@ def prim_fibonacci_heap(graph, start_vertex):
     return mst, total_weight
 
 
-# Example Usage
 graph = {
     'A': {'B': 2, 'D': 6},
     'B': {'A': 2, 'C': 3, 'D': 8, 'E': 5},
