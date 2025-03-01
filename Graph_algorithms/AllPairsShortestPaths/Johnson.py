@@ -1,26 +1,6 @@
 import heapq
 
-"""
-Johnson's Algorithm for All-Pairs Shortest Paths
 
-This algorithm computes the shortest paths between all pairs of vertices in a weighted, directed graph. 
-It efficiently handles graphs with negative weights but not negative-weight cycles.
-
-Algorithm Steps:
-1. Augment the graph by adding a new vertex connected to all other vertices with zero-weight edges.
-2. Run Bellman-Ford from the new vertex to compute potential values.
-3. Reweight the original edges to ensure all weights are non-negative.
-4. Run Dijkstra's algorithm from each vertex to compute shortest paths.
-5. Adjust the results to obtain correct distances in the original graph.
-
-Time Complexity:
-- Bellman-Ford: O(VE)
-- Dijkstra (using a priority queue): O((V + E) log V)
-- Overall: O(VE + V log V) in the worst case
-
-Space Complexity:
-- O(V^2) for storing the distance matrix
-"""
 
 def bellman_ford(graph, weights, source):
      distance = {v: float('inf') for v in graph}
@@ -58,27 +38,48 @@ def dijkstra(graph, weights, source):
      return distance
 
 def johnson(graph, weights):
-     new_graph = {v: set(neighbors) for v, neighbors in graph.items()}
-     new_graph['s'] = set(graph.keys())
-     new_weights = weights.copy()
-     for v in graph:
-         new_weights[('s', v)] = 0
-     
-     h, valid = bellman_ford(new_graph, new_weights, 's')
-     if not valid:
-         print("The input graph contains a negative-weight cycle")
-         return None
-     
-     reweighted_weights = {}
-     for (u, v), w in weights.items():
-         reweighted_weights[(u, v)] = w + h[u] - h[v]
-     
-     D = {}
-     for u in graph:
-         shortest_paths = dijkstra(graph, reweighted_weights, u)
-         D[u] = {v: shortest_paths[v] + h[v] - h[u] for v in graph}
-     
-     return D
+    """
+    Johnson's Algorithm for All-Pairs Shortest Paths
+
+    This algorithm computes the shortest paths between all pairs of vertices in a weighted, directed graph. 
+    It efficiently handles graphs with negative weights but not negative-weight cycles.
+
+    Algorithm Steps:
+    1. Augment the graph by adding a new vertex connected to all other vertices with zero-weight edges.
+    2. Run Bellman-Ford from the new vertex to compute potential values.
+    3. Reweight the original edges to ensure all weights are non-negative.
+    4. Run Dijkstra's algorithm from each vertex to compute shortest paths.
+    5. Adjust the results to obtain correct distances in the original graph.
+
+    Time Complexity:
+    - Bellman-Ford: O(VE)
+    - Dijkstra (using a priority queue): O((V + E) log V)
+    - Overall: O(VE + V log V) in the worst case
+
+    Space Complexity:
+    - O(V^2) for storing the distance matrix
+    """
+    new_graph = {v: set(neighbors) for v, neighbors in graph.items()}
+    new_graph['s'] = set(graph.keys())
+    new_weights = weights.copy()
+    for v in graph:
+        new_weights[('s', v)] = 0
+    
+    h, valid = bellman_ford(new_graph, new_weights, 's')
+    if not valid:
+        print("The input graph contains a negative-weight cycle")
+        return None
+    
+    reweighted_weights = {}
+    for (u, v), w in weights.items():
+        reweighted_weights[(u, v)] = w + h[u] - h[v]
+    
+    D = {}
+    for u in graph:
+        shortest_paths = dijkstra(graph, reweighted_weights, u)
+        D[u] = {v: shortest_paths[v] + h[v] - h[u] for v in graph}
+    
+    return D
 
 
 if __name__ == '__main__':
